@@ -1,7 +1,7 @@
 package storageEngine
 
 import ("github.com/ar-ushi/gonamo/types")
-
+import ("github.com/ar-ushi/gonamo/vclock")
 type storageEngine interface {
     Put(key types.Key, value types.Value) error
     Get(key types.Key) ([]types.Value, bool, error)
