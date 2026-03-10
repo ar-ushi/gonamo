@@ -3,24 +3,24 @@ package vclock
 //list of tubples [(nid1, tick1), (nid2, tick2), (...)] where pid is the process and tick is the clock value
 type VClock map[string]uint64
 
-func newClock() VClock{
+func newClock() VClock {
 	return make(VClock)
 }
 
-func (v *VClock) Increment (nodeId string){
+func (v VClock) Increment(nodeId string) {
 	v[nodeId] = v[nodeId] + 1
 }
 
-func (v *VClock) Get(nodeId string) uint64{
+func (v VClock) Get(nodeId string) uint64 {
 	return v[nodeId]
 }
 
-func (v *VClock) Merge(v2 VClock) VClock{
+func (v VClock) Merge(v2 VClock) VClock {
 	res := newClock()
-	for nodeId, version := range v{
+	for nodeId, version := range v {
 		res[nodeId] = version
 	}
-	for nodeId, version := range v2{
+	for nodeId, version := range v2 {
 		if res[nodeId] < version {
 			res[nodeId] = version
 		}
@@ -28,8 +28,8 @@ func (v *VClock) Merge(v2 VClock) VClock{
 	return res
 }
 
-/** returns true if v2 is descendant of v1*/ 
-func (v1 *VClock) DescendantOf(v2 VClock) bool{
+/** returns true if v2 is descendant of v1*/
+func (v1 VClock) DescendantOf(v2 VClock) bool {
 	for nodeId, version := range v2 {
 		if v1[nodeId] < version {
 			return false
@@ -38,8 +38,8 @@ func (v1 *VClock) DescendantOf(v2 VClock) bool{
 	return true
 }
 
-func (v1 *VClock) Equals(v2 VClock) bool{
-for nodeId, version := range v2 {
+func (v1 VClock) Equals(v2 VClock) bool {
+	for nodeId, version := range v2 {
 		if v1[nodeId] == version {
 			return true
 		}
@@ -47,3 +47,13 @@ for nodeId, version := range v2 {
 	return false
 }
 
+/** TIL
+we need a copy to prevent the same reference passed in to be modified
+*/
+func (v1 VClock) Copy() VClock {
+	copied := newClock()
+	for nodeId, version := range v1 {
+		copied[nodeId] = version
+	}
+	return copied
+}

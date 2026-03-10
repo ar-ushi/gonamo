@@ -16,3 +16,5 @@ what does vclock need to do -
 5. find if equal
 6. merge
  
+
+ TIL - In Go, map is a pointer toan underlying data structure

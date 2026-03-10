@@ -7,3 +7,5 @@ How do I make data persist?
 Define Position to help Node identify its bounds for a request
 Do I need Peers?
 
+
+adding a cluster but this is a case for multiple 
